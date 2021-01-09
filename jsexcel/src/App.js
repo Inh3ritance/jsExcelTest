@@ -10,7 +10,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       data: [[]],
-      minDimensions: [10,10]
+      minDimensions: [5,5],
     }
     this.options = props.options;
     this.wrapper = React.createRef();
@@ -20,31 +20,32 @@ class App extends React.Component {
     this.el = jexcel(this.wrapper.current, this.state);
   }
 
-  addRow() {
-    this.el.insertRow();
-  };
+  getData(){
+    console.log(this.el.getData());
+    console.log(this.el.getHeaders());
+    console.log(this.el.getConfig());
+  }
 
   render() {
+
     return (
       <div>
         <div ref={this.wrapper} />
         <br />
-        <input
-          type="button"
-          value="Add new row"
-          onClick={() => this.addRow()}
-        />
+
+        <button onClick={() => this.el.deleteRow()}>-</button>
+        <p>Row</p>
+        <button onClick={() => this.el.insertRow()}>+</button>
+
+        <button onClick={() => this.el.deleteColumn()}>-</button>
+        <p>Coloumn</p>
+        <button onClick={() => this.el.insertColumn()}>+</button>
+
+        <button onClick={() => this.getData()}>d</button>
+
       </div>
     );
   }
 }
-
-var options = {
-  data: [[]],
-  minDimensions: [10, 10]
-};
-
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App options={options} />, rootElement);
 
 export default App;
