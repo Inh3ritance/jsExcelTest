@@ -8,19 +8,16 @@ const App = (props) => {
   const [minDimensions, getMinDimensions] = useState([5,5]);
   const [header, getHeader] = useState("");
   const wrapper = React.createRef();
-  var el = null;
+  const [je, Setje] = useState(null);
 
-  useEffect(()=>{
-    if(el === null)
-      el = jexcel(wrapper.current, {data,minDimensions,header})
-  })
+  useEffect(() => {
+    Setje(jexcel(wrapper.current, {data,minDimensions,header}));
+  }, []);
 
-  const SaveData = () =>{
-    useEffect(() => {
-      getData(el.getData());
-      getMinDimensions([ el.getWidth(), this.el.getHeight() ]);
-      getHeader(el.getHeaders());
-    });
+  const SaveData = () => {
+    getData(je.getData());
+    getMinDimensions([ je.getWidth(), je.getHeight() ]);
+    getHeader(je.getHeaders());
   }
 
   return (
@@ -29,18 +26,18 @@ const App = (props) => {
       <br /> 
 
       <div className="order">
-        <button className="button_row" onClick={() => el.deleteRow()}>-</button>
+        <button className="button_row" onClick={() => je.deleteRow()}>-</button>
         <p className="button_row">Row</p>
-        <button className="button_row" onClick={() => el.insertRow()}>+</button>
+        <button className="button_row" onClick={() => je.insertRow()}>+</button>
       </div>
 
       <div className="order">
-        <button className="button_row" onClick={() => el.deleteColumn()}>-</button>
+        <button className="button_row" onClick={() => je.deleteColumn()}>-</button>
         <p className="button_row">Coloumn</p>
-        <button className="button_row" onClick={() => el.insertColumn()}>+</button>
+        <button className="button_row" onClick={() => je.insertColumn()}>+</button>
       </div>
 
-      <button onClick={() => SaveData()}>save</button>
+      <button onClick={SaveData}>save</button>
 
     </div>
   );
