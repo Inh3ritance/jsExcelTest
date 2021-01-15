@@ -2,6 +2,16 @@
   text-align: center;
 }
 
+.button_row{
+  display: inline;
+}
+
+.order{
+  margin-left: 1%;
+  margin-right: 1%;
+  display: inline-block;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

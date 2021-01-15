@@ -1,51 +1,50 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useEffect, useState } from 'react';
 import jexcel from 'jexcel';
 import './App.css';
 import '../node_modules/jexcel/dist/jexcel.css';
 
-class App extends React.Component {
+const App = (props) => {
+  const [data, getData] = useState([[]]);
+  const [minDimensions, getMinDimensions] = useState([5,5]);
+  const [header, getHeader] = useState("");
+  const wrapper = React.createRef();
+  var el = null;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [[]],
-      minDimensions: [5,5],
-    }
-    this.options = props.options;
-    this.wrapper = React.createRef();
+  useEffect(()=>{
+    if(el === null)
+      el = jexcel(wrapper.current, {data,minDimensions,header})
+  })
+
+  const SaveData = () =>{
+    useEffect(() => {
+      getData(el.getData());
+      getMinDimensions([ el.getWidth(), this.el.getHeight() ]);
+      getHeader(el.getHeaders());
+    });
   }
 
-  componentDidMount() {
-    this.el = jexcel(this.wrapper.current, this.state);
-  }
+  return (
+    <div>
+      <div ref={wrapper} />
+      <br /> 
 
-  getData(){
-    console.log(this.el.getData());
-    console.log(this.el.getHeaders());
-    console.log(this.el.getConfig());
-  }
-
-  render() {
-
-    return (
-      <div>
-        <div ref={this.wrapper} />
-        <br />
-
-        <button onClick={() => this.el.deleteRow()}>-</button>
-        <p>Row</p>
-        <button onClick={() => this.el.insertRow()}>+</button>
-
-        <button onClick={() => this.el.deleteColumn()}>-</button>
-        <p>Coloumn</p>
-        <button onClick={() => this.el.insertColumn()}>+</button>
-
-        <button onClick={() => this.getData()}>d</button>
-
+      <div className="order">
+        <button className="button_row" onClick={() => el.deleteRow()}>-</button>
+        <p className="button_row">Row</p>
+        <button className="button_row" onClick={() => el.insertRow()}>+</button>
       </div>
-    );
-  }
+
+      <div className="order">
+        <button className="button_row" onClick={() => el.deleteColumn()}>-</button>
+        <p className="button_row">Coloumn</p>
+        <button className="button_row" onClick={() => el.insertColumn()}>+</button>
+      </div>
+
+      <button onClick={() => SaveData()}>save</button>
+
+    </div>
+  );
+
 }
 
 export default App;
